@@ -71,8 +71,8 @@ app.use(
   })
 );
 
-// ✅ Handle preflight requests
-app.options("*", cors());
+// // ✅ Handle preflight requests
+// app.options("*", cors());
 
 app.use(express.json());
 app.use(cookieParser());
