@@ -40,7 +40,7 @@ const SignupController = async (req, res) => {
     // 6️⃣ Set cookie with token
     res.cookie("token", token, {
       httpOnly: true,     // ✅ prevent JS access (security)
-      secure: true
+      secure: true,
       sameSite: "none", // CSRF protection
       maxAge: 7 * 24 * 60 * 60 * 1000, // expires in 7 days
     });
