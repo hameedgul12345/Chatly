@@ -195,16 +195,11 @@ import Message from "./components/Message";
 import getAllUsers from "./customHooks/getAllUsers";
 import { useSelector, useDispatch } from "react-redux";
 
-// import getMessages from "./customHooks/getMessages";
-<<<<<<< HEAD
+
 
 // export const serverURL = "https://chatly-bay.vercel.app/";
 
-export const serverURL = "https://chatly-bay.vercel.app";
-
-=======
-export const serverURL = "https://chatly-bay.vercel.app";
->>>>>>> ec738b11f86845af62241db7c8ca51546d1ef1e3
+export const serverURL = "https://chatly-mu.vercel.app";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { setOnlineUsers, setSocket } from "./redux/userSlice";
