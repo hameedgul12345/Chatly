@@ -81,9 +81,6 @@ app.use("/api/auth", authrouter);
 app.use("/api/user", userrouter);
 app.use("/api/message", messagerouter);
 
-// // ✅ Start server
-// const PORT = process.env.PORT || 5000;
-// server.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));
-// ❌ Remove server.listen()
-// ✅ Export the app instead
-export default app;
+// ✅ Start server
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));
