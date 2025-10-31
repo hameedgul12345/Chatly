@@ -15,10 +15,17 @@ const updateUser = async (req, res) => {
 
     // ✅ If image is provided, upload to Cloudinary
     let profilePicUrl = user.profilePic;
+    // if (file) {
+    //   const uploadResult = await uploadOnCloudinary(file.path);
+    //   profilePicUrl = uploadResult.secure_url;
+    // }
+
+
     if (file) {
-      const uploadResult = await uploadOnCloudinary(file.path);
-      profilePicUrl = uploadResult.secure_url;
-    }
+  const uploadResult = await uploadOnCloudinary(file.buffer); // send buffer instead of path
+  profilePicUrl = uploadResult.secure_url;
+}
+
  console.log(profilePicUrl)
     // ✅ Update user fields
     user.name = name || user.name;
