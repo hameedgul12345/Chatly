@@ -7,8 +7,11 @@ import http from "http";
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: {
-    origin: ["https://chattochatly4.netlify.app"],
+ cors: {
+    origin: [
+      "https://chattochatly4.netlify.app",
+      "http://localhost:5173",
+    ],
     methods: ["GET", "POST"],
     credentials: true,
   },
