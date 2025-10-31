@@ -62,7 +62,7 @@ dotenv.config();
 app.use(
   cors({
     origin: [
-      "https://chattochatly.netlify.app", // Frontend
+      "https://chattochatly4.netlify.app", // Frontend
       // "http://localhost:5173", // For local dev
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
