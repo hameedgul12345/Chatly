@@ -62,7 +62,7 @@ const Profile = () => {
       }
       // console.log(data)
       // 👇 Backend endpoint (example)
-      const response = await fetch(`${serverURL}/api/auth/signin`, {
+      const response = await fetch(`${serverURL}/api/user/update`, {
         method: "PUT",
         body: data,
         credentials: "include", // 👈 This sends the cookie!
