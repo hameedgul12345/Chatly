@@ -8,10 +8,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "https://chattochatly4.netlify.app", // Frontend
-      // "http://localhost:5173", // For local dev
-    ],
+    origin: ["https://chattochatly4.netlify.app"],
+    methods: ["GET", "POST"],
     credentials: true,
   },
 });
