@@ -39,7 +39,7 @@ const updateUser = async (req, res) => {
         username: user.username,
         email: user.email,
         headline: user.headline,
-        profilePic: user.profilePic,
+        image: user.profilePic,
       },
     });
   } catch (error) {
