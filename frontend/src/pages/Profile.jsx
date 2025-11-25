@@ -25,6 +25,7 @@ const Profile = () => {
         headline: userData.user.headline || "",
         username: userData.user.userName || "",
         email: userData.user.email || "",
+        image:userData.user.image
       });
     }
   }, [userData]);

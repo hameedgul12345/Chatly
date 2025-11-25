@@ -29,7 +29,7 @@ const updateUser = async (req, res) => {
     user.headline = headline || user.headline;
     user.userName = userName || user.userName;
     user.email = email || user.email;
-    user.image = profilePicUrl|| user.profilePicUrl;
+    user.image = profilePicUrl || user.profilePicUrl;
 
     // ✅ Save updated user
     await user.save();
