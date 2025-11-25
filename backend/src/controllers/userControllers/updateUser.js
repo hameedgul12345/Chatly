@@ -12,7 +12,6 @@ const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
-
     // ✅ If image is provided, upload to Cloudinary
     let profilePicUrl = user.profilePic;
     // if (file) {
@@ -20,19 +19,17 @@ const updateUser = async (req, res) => {
     //   profilePicUrl = uploadResult.secure_url;
     // }
 
-
     if (file) {
   const uploadResult = await uploadOnCloudinary(file.buffer); // send buffer instead of path
   profilePicUrl = uploadResult.secure_url;
 }
-
  console.log(profilePicUrl)
     // ✅ Update user fields
     user.name = name || user.name;
     user.headline = headline || user.headline;
     user.userName = userName || user.userName;
     user.email = email || user.email;
-    user.image = profilePicUrl;
+    user.image = profilePicUrl|| user.profilePicUrl;
 
     // ✅ Save updated user
     await user.save();

@@ -60,7 +60,6 @@
 
 // export default sendMessage;
 
-
 import uploadOnCloudinary from "../../config/cloudinary.js";
 import Conversation from "../../models/conversationModel.js";
 import Message from "../../models/messageModel.js";
@@ -74,18 +73,17 @@ const sendMessage = async (req, res) => {
     const { receiverID } = req.params;
     const { text } = req.body || {};
     // console.log("Message text:", text);
-
     let imageURL = null;
-
     if (req.file) {
       const image = await uploadOnCloudinary(req.file.path);
       imageURL = image.secure_url;
     }
-
     const senderExists = await User.findById(sender);
     const receiverExists = await User.findById(receiverID);
     if (!senderExists || !receiverExists) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     let conversation = await Conversation.findOne({
@@ -97,36 +95,25 @@ const sendMessage = async (req, res) => {
         participants: [sender, receiverID],
       });
     }
-
-
-
     const newMessage = await Message.create({
       sender,
       receiver: receiverID,
       text: text || "",
-      image: imageURL||"",
+      image: imageURL || "",
     });
-
     conversation.messages.push(newMessage._id);
     await conversation.save();
-
-
-
-
     const receiverSocketID = getRececiverID(receiverID);
+    if (receiverSocketID) {
+      // ✅ emit only the message data, not the entire response
+      io.to(receiverSocketID).emit("newMessage", newMessage);
+    }
 
-if (receiverSocketID) {
-  // ✅ emit only the message data, not the entire response
-  io.to(receiverSocketID).emit("newMessage", newMessage);
-}
-
-res.status(201).json({
-  success: true,
-  message: "Message sent successfully",
-  data: newMessage,
-});
-
-   
+    res.status(201).json({
+      success: true,
+      message: "Message sent successfully",
+      data: newMessage,
+    });
   } catch (error) {
     console.error("Error sending message:", error);
     res.status(500).json({ success: false, error: error.message });

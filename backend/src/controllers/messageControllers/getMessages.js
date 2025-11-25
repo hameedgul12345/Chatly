@@ -35,7 +35,6 @@
 import Conversation from "../../models/conversationModel.js";
  import Message from "../../models/messageModel.js";
 import User from "../../models/userModel.js";
-
 const getMessages = async (req, res) => {
   console.log("hello")
   try {
@@ -48,16 +47,13 @@ const getMessages = async (req, res) => {
     if (!senderExists || !receiverExists) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
-
     // ✅ Await the query and populate the messages
     const conversation = await Conversation.findOne({
       participants: { $all: [sender, receiverID] },
     }).populate("messages");
-
     if (!conversation) {
       return res.status(404).json({ success: false, message: "Conversation not found" });
     }
-
     // ✅ Send all messages
     res.status(200).json({
       success: true,
