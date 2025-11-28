@@ -85,9 +85,11 @@ import { useNavigate } from "react-router-dom";
 import { clearUserData, setSelectedUser } from "../redux/userSlice";
 import { serverURL } from "../App";
 const Sidebar = () => {
-  const { userData, allUsers,selectedUser,onlineUsers} = useSelector((state) => state.user);
+  const { userData, allUsers, selectedUser, onlineUsers } = useSelector(
+    (state) => state.user
+  );
   // console.log("current", userData);
-  console.log("all users",allUsers);
+  console.log("all users", allUsers);
   // console.log("selected user",selectedUser)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -99,10 +101,10 @@ const Sidebar = () => {
       userData?.user?.image ||
       "https://cdn-icons-png.flaticon.com/512/149/149071.png",
   };
-const selectUser=(user)=>{
- dispatch(setSelectedUser(user));
- navigate('/message')
-  }
+  const selectUser = (user) => {
+    dispatch(setSelectedUser(user));
+    navigate("/message");
+  };
   const handleLogout = async () => {
     try {
       const res = await axios.get(`${serverURL}/api/auth/logout`, {
@@ -124,7 +126,7 @@ const selectUser=(user)=>{
     }
   };
   return (
-    <div className="w-80 h-screen fixed top-0 left-0 bg-[#1e2a30] text-white flex flex-col border-r border-gray-700">
+    <div className="w-80 hidden md:block h-screen fixed top-0 left-0 bg-[#1e2a30] text-white flex flex-col border-r border-gray-700">
       {/* Top Profile Section */}
       <div
         onClick={() => navigate("/profile")}
@@ -156,38 +158,37 @@ const selectUser=(user)=>{
       {/* Other Users */}
       <div className="flex-1 overflow-y-auto p-3">
         <h3 className="text-sm text-gray-400 uppercase mb-2">Chats</h3>
-      {allUsers?.length > 0 ? (
-  allUsers.map((user) => (
-    <div
-      onClick={() => selectUser(user)}
-      key={user._id}
-      className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#2c3e42] cursor-pointer transition-all"
-    >
-      <div className="flex items-center gap-3">
-        <img
-          src={user.image}
-          alt={user.name}
-          className="w-10 h-10 rounded-full object-cover"
-        />
-        <div>
-          <p className="font-medium">{user.name}</p>
-          <p
-            className={`text-xs ${
-              onlineUsers?.includes(user._id)
-                ? "text-green-400"
-                : "text-gray-500"
-            }`}
-          >
-            {onlineUsers?.includes(user._id) ? "Online" : "Offline"}
-          </p>
-        </div>
-      </div>
-    </div>
-  ))
-) : (
-  <p className="text-gray-500 text-sm text-center">No users found</p>
-)}
-
+        {allUsers?.length > 0 ? (
+          allUsers.map((user) => (
+            <div
+              onClick={() => selectUser(user)}
+              key={user._id}
+              className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#2c3e42] cursor-pointer transition-all"
+            >
+              <div className="flex items-center gap-3">
+                <img
+                  src={user.image}
+                  alt={user.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <p className="font-medium">{user.name}</p>
+                  <p
+                    className={`text-xs ${
+                      onlineUsers?.includes(user._id)
+                        ? "text-green-400"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {onlineUsers?.includes(user._id) ? "Online" : "Offline"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500 text-sm text-center">No users found</p>
+        )}
       </div>
 
       <div className="p-4 border-t border-gray-700 text-center text-sm text-gray-400">
