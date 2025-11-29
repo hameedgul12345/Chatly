@@ -3,17 +3,16 @@ import { FiMenu } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { clearUserData, setSelectedUser } from "../redux/userSlice"; // adjust path
-import { serverURL } from "../App"; // adjust path
+import { clearUserData, setSelectedUser } from "../redux/userSlice";
+import { serverURL } from "../App";
 
 function Header() {
-  const { userData, allUsers, selectedUser, onlineUsers } = useSelector(
+  const { userData, allUsers, onlineUsers } = useSelector(
     (state) => state.user
   );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [openSidebar, setOpenSidebar] = React.useState(false);
 
   const handleLogout = async () => {
@@ -21,36 +20,46 @@ function Header() {
       const res = await axios.get(`${serverURL}/api/auth/logout`, {
         withCredentials: true,
       });
-
       if (res.status === 200) {
         dispatch(clearUserData());
         localStorage.removeItem("persist:root");
         navigate("/login");
       }
     } catch (error) {
-      console.error("❌ Error during logout:", error);
+      console.error("Logout failed:", error);
     }
   };
 
   return (
     <>
       {/* HEADER */}
-      <header style={styles.header}>
-        {/* Profile */}
-        <div style={styles.profile}>
-          <img
-            src={userData?.user.image }
-            alt="Profile"
-            style={styles.image}
-          />
-          <span style={styles.name}>{userData?.name || "User"}</span>
+      <header className="fixed top-0 left-0 right-0 h-[64px] z-50
+        bg-gradient-to-r from-[#0f172a] via-[#111827] to-[#1e293b]
+        backdrop-blur-lg shadow-lg flex items-center justify-between px-4"
+      >
+        {/* PROFILE */}
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <img
+              src={userData?.user?.image}
+              alt="Profile"
+              className="w-10 h-10 rounded-full ring-2 ring-blue-500 object-cover"
+            />
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-[#0f172a] rounded-full"></span>
+          </div>
+
+          <div className="leading-tight">
+            <p className="text-white text-sm font-semibold">
+              {userData?.user?.name || "User"}
+            </p>
+            <p className="text-gray-400 text-xs">Available</p>
+          </div>
         </div>
 
-        {/* Menu Icon */}
+        {/* MENU ICON */}
         <FiMenu
           onClick={() => setOpenSidebar(true)}
-          size={30}
-          style={styles.menuIcon}
+          className="text-white text-2xl cursor-pointer hover:text-blue-400 transition"
         />
       </header>
 
@@ -58,19 +67,27 @@ function Header() {
       {openSidebar && (
         <div
           onClick={() => setOpenSidebar(false)}
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
         />
       )}
 
       {/* MOBILE SIDEBAR */}
-      <div
-        className={`bg-[#1e2a30] z-50 md:hidden fixed top-0 left-0 w-64 h-full transition-transform duration-300 
+      <div className={`fixed top-0 left-0 z-50 h-full w-72
+        bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#020617]
+        transform transition-transform duration-300 overflow-hidden
         ${openSidebar ? "translate-x-0" : "-translate-x-full"}`}
       >
-        {/* USERS */}
-        <div className="flex-1 overflow-y-auto p-3">
-          <h3 className="text-sm text-gray-400 uppercase mb-2">Chats</h3>
+        {/* SIDEBAR HEADER */}
+        <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+          <h2 className="text-white font-semibold text-lg">Chats</h2>
+          <button
+            onClick={() => setOpenSidebar(false)}
+            className="text-gray-400 hover:text-white transition"
+          >✕</button>
+        </div>
 
+        {/* USERS */}
+        <div className="flex-1 overflow-y-auto p-3 space-y-2">
           {allUsers?.length > 0 ? (
             allUsers.map((user) => (
               <div
@@ -79,81 +96,56 @@ function Header() {
                   dispatch(setSelectedUser(user));
                   setOpenSidebar(false);
                 }}
-                className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#2c3e42] cursor-pointer transition-all"
+                className="group flex items-center gap-3 p-3 rounded-xl cursor-pointer
+                hover:bg-white/10 transition-all"
               >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={user.image}
-                    alt={user.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="font-medium text-white">{user.name}</p>
-                    <p
-                      className={`text-xs ${
-                        onlineUsers?.includes(user._id)
-                          ? "text-green-400"
-                          : "text-gray-500"
-                      }`}
-                    >
-                      {onlineUsers?.includes(user._id) ? "Online" : "Offline"}
-                    </p>
-                  </div>
+                <img
+                  src={user.image}
+                  alt={user.name}
+                  className="w-11 h-11 rounded-full object-cover border border-gray-600"
+                />
+
+                <div className="flex-1">
+                  <p className="text-white font-medium text-sm">{user.name}</p>
+                  <p className={`text-xs ${
+                    onlineUsers?.includes(user._id)
+                      ? "text-green-400"
+                      : "text-gray-500"
+                  }`}>
+                    {onlineUsers?.includes(user._id) ? "Online" : "Offline"}
+                  </p>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-sm text-center">
+            <p className="text-gray-500 text-sm text-center mt-8">
               No users found
             </p>
           )}
         </div>
 
         {/* FOOTER */}
-        <div className="p-4 border-t border-gray-700 text-center text-sm text-gray-400">
-          © 2025 Chatly
-        </div>
+        <div className="border-t border-gray-700 p-4">
+          <button
+            onClick={handleLogout}
+            className="w-full py-3 rounded-xl font-medium
+              bg-gradient-to-r from-red-500 to-red-600
+              hover:from-red-600 hover:to-red-700
+              transition-all text-white shadow"
+          >
+            Logout
+          </button>
 
-        <button
-          onClick={handleLogout}
-          className="w-full bg-red-600 p-3 hover:bg-red-700 transition"
-        >
-          Logout
-        </button>
+          <p className="text-gray-500 text-xs text-center mt-3">
+            © 2025 Chatly
+          </p>
+        </div>
       </div>
+
+      {/* Space for fixed header */}
+      <div className="h-[64px]" />
     </>
   );
 }
-
-const styles = {
-  header: {
-    height: "60px",
-    background: "#0f172a",
-    color: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "0 16px",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-  },
-  profile: {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  },
-  image: {
-    width: "36px",
-    height: "36px",
-    borderRadius: "50%",
-    objectFit: "cover",
-  },
-  name: {
-    fontSize: "14px",
-    fontWeight: "500",
-  },
-  menuIcon: {
-    cursor: "pointer",
-  },
-};
 
 export default Header;
