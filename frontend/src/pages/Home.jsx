@@ -22,7 +22,7 @@ import { IoMdChatbubbles } from "react-icons/io";
 function Home() {
   return (
     <Layout>
-      <div className="flex md:w-[100%] h-[90vh] mt-16 bg-gray-50 dark:bg-gray-900 transition-all duration-500">
+      <div className="flex md:w-[100%] h-[90vh] md:mt-4 mt-24 bg-gray-50 dark:bg-gray-900 transition-all duration-500">
         {/* Sidebar Section */}
         <Sidebar />
 

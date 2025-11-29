@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
  cors: {
     origin: [
-      "https://chattochatly.netlify.app",
+      // "https://chattochatly.netlify.app",
       "http://localhost:5173",
     ],
     methods: ["GET", "POST"],

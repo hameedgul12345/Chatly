@@ -14,7 +14,7 @@ dotenv.config();
 app.use(
   cors({
     origin: [
-      "https://chattochatly.netlify.app", // ✅ your Netlify frontend
+      // "https://chattochatly.netlify.app", // ✅ your Netlify frontend
       "http://localhost:5173", // ✅ keep this for local dev
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
