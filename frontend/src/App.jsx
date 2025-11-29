@@ -197,9 +197,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 
-export const serverURL = "http://localhost:5000";
+// export const serverURL = "http://localhost:5000";
 
-// export const serverURL = "https://chatly-mu.vercel.app";
+export const serverURL = "https://chatly-mu.vercel.app";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { setOnlineUsers, setSocket } from "./redux/userSlice";
