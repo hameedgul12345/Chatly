@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import dns from "dns";
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authrouter from "./routes/authRoute.js";
